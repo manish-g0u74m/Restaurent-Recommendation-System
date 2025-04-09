@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+{% if restaurants %}
+  <h3>Recommended Restaurants</h3>
+  <div class="restaurant-grid">
+   
+      
+  <!-- Search Filters -->
+  <form method="GET" action="{{ url_for('main.recommend') }}" class="filters">
+    <input type="text" name="city" placeholder="City" value="{{ request.args.get('city', '') }}">
+    <input type="text" name="cuisine" placeholder="Cuisine" value="{{ request.args.get('cuisine', '') }}">
+    <input type="number" name="min_rating" placeholder="Min Rating (0-5)" step="0.1" min="0" max="5" value="{{ request.args.get('min_rating', '') }}">
+    <input type="number" name="max_cost" placeholder="Max Cost (₹)" value="{{ request.args.get('max_cost', '') }}">
+    <button type="submit">Search</button>
+  </form>
+
+    {% for r in restaurants %}
+      <div class="restaurant-card">
+        <h4>{{ r.name }}</h4>
+        <p><strong>Cuisine:</strong> {{ r.cuisine }}</p>
+        <p><strong>Location:</strong> {{ r.locality }}, {{ r.city }}</p>
+        <p><strong>Rating:</strong> {{ r.rating }} ({{ r.votes }} votes)</p>
+        <p><strong>Avg. Cost:</strong> ₹{{ r.cost }} for two • {{ r.price_range() }}</p>
+      </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="no-results">
+    <h3>No restaurants available matching your criteria.</h3>
+    <p>Try adjusting your filters or <a href="{{ url_for('main.dashboard') }}">search again</a>.</p>
+  </div>
+  {% endif %}
+  {% if not restaurants %}
+  <div class="suggestion-box">
+    <p>Don't see your favorite restaurant?</p>
+    <a href="{{ url_for('main.suggest') }}" class="btn btn-primary">
+      Suggest a Restaurant
+    </a>
+  </div>
+{% endif %}
+</div>
+{% endblock %}

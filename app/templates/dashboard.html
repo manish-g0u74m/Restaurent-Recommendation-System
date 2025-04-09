@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dashboard-container">
+    <h2>Welcome, {{ current_user.username }}!</h2>
+
+    <!-- ======= SEARCH SECTION ======= -->
+    <div class="search-section">
+        <h3>Find Restaurants</h3>
+        <form method="GET" action="{{ url_for('main.recommend') }}">
+            <div class="filter-grid">
+                <!-- City Filter -->
+                <div class="filter-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" placeholder="e.g., Mumbai">
+                </div>
+
+                <!-- Cuisine Filter -->
+                <div class="filter-group">
+                    <label for="cuisine">Cuisine</label>
+                    <select id="cuisine" name="cuisine">
+                        <option value="">All Cuisines</option>
+                        <option value="Indian">Indian</option>
+                        <option value="Italian">Italian</option>
+                        <option value="Chinese">Chinese</option>
+                        <!-- Add more options -->
+                    </select>
+                </div>
+
+                <!-- Rating Filter -->
+                <div class="filter-group">
+                    <label for="min_rating">Min Rating</label>
+                    <input type="number" id="min_rating" name="min_rating" min="1" max="5" step="0.1" placeholder="1-5">
+                </div>
+
+                <!-- Price Filter -->
+                <div class="filter-group">
+                    <label for="max_price">Max Price (₹)</label>
+                    <input type="number" id="max_price" name="max_cost" placeholder="e.g., 1000">
+                </div>
+            </div>
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </div>
+
+    <!-- ======= QUESTIONNAIRE SECTION ======= -->
+    <div class="questionnaire-section">
+        <h3>Help Us Improve Recommendations</h3>
+        <form method="POST" action="{{ url_for('main.save_preferences') }}">
+            <!-- Cuisine Preferences -->
+            <div class="form-group">
+                <label>Favorite Cuisines (Select up to 3):</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="cuisine" value="Indian"> Indian</label>
+                    <label><input type="checkbox" name="cuisine" value="Italian"> Italian</label>
+                    <label><input type="checkbox" name="cuisine" value="Chinese"> Chinese</label>
+                    <!-- Add more options -->
+                </div>
+            </div>
+
+            <!-- Budget Preference -->
+            <div class="form-group">
+                <label>Budget Range:</label>
+                <select name="budget">
+                    <option value="$">Budget (₹0-500)</option>
+                    <option value="$$">Moderate (₹500-1500)</option>
+                    <option value="$$$">Premium (₹1500+)</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">Save Preferences</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

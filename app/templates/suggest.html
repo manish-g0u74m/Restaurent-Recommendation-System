@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="suggestion-container">
+    <h2>Suggest a Restaurant</h2>
+    <p>Help us improve our recommendations by adding your favorite place!</p>
+
+    <form method="POST" class="suggestion-form">
+        {{ form.hidden_tag() }}  <!-- CSRF Token -->
+
+        <!-- Restaurant Details -->
+        <div class="form-group">
+            {{ form.name.label }}
+            {{ form.name(class="form-control") }}
+            {% if form.name.errors %}
+                <div class="text-danger">
+                    {% for error in form.name.errors %}
+                        <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- City and Locality -->
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                {{ form.city.label }}
+                {{ form.city(class="form-control") }}
+                {% if form.city.errors %}
+                    <div class="text-danger">
+                        {% for error in form.city.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.locality.label }}
+                {{ form.locality(class="form-control") }}
+                {% if form.locality.errors %}
+                    <div class="text-danger">
+                        {% for error in form.locality.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Cuisine and Rating -->
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                {{ form.cuisine.label }}
+                {{ form.cuisine(class="form-control") }}
+                {% if form.cuisine.errors %}
+                    <div class="text-danger">
+                        {% for error in form.cuisine.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.rating.label }}
+                {{ form.rating(class="form-control") }}
+                {% if form.rating.errors %}
+                    <div class="text-danger">
+                        {% for error in form.rating.errors %}
+                            <small>{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="form-group">
+            {{ form.comment.label }}
+            {{ form.comment(class="form-control", rows=3) }}
+        </div>
+
+        <div class="form-group">
+            {{ form.email.label }}
+            {{ form.email(class="form-control") }}
+            <small class="text-muted">We'll notify you when we add this restaurant</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit Suggestion</button>
+        <a href="{{ url_for('main.recommend') }}" class="btn btn-outline-secondary ml-2">Cancel</a>
+    </form>
+</div>
+{% endblock %}
