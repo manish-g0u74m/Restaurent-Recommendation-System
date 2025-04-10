@@ -2,6 +2,6 @@ version: '3.9'
 
 services:
   web:
-    image: g0u74m/g0u74m/restaurent-recommendation
+    image: g0u74m/restaurent-app
     ports:
       - "80:5000"
