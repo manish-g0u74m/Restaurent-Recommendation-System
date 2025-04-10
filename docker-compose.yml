@@ -4,4 +4,4 @@ services:
   web:
     image: g0u74m/restaurent-app
     ports:
-      - "443:5000"
+      - "80:5000"
